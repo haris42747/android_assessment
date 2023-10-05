@@ -1,0 +1,35 @@
+(1) Problem Solving:
+
+Write a function in Kotlin that accepts a string as input and returns the count of each unique word in the
+string. Ignore punctuation and consider words to be case-insensitive. For example, given the input "The cat
+and the hat.", the function should return a dictionary with the following counts: ["the": 2, "cat": 1, "and": 1,
+"hat": 1].
+
+
+fun countOfUniqueWord(input: String): HashMap<String, Int> {
+        val totalWordCount = HashMap<String, Int>()
+        var inWord = false
+        var currentWord = StringBuilder()
+
+        for (char in input.lowercase(Locale.ROOT)) {
+            when {
+                char in 'a'..'z' -> {
+                    inWord = true
+                    currentWord.append(char)
+                }
+                inWord -> {
+                    val word = currentWord.toString()
+                    totalWordCount[word] = totalWordCount.getOrDefault(word, 0) + 1
+                    currentWord.clear()
+                    inWord = false
+                }
+            }
+        }
+
+        if (inWord) {
+            val lastWord = currentWord.toString()
+            totalWordCount[lastWord] = totalWordCount.getOrDefault(lastWord, 0) + 1
+        }
+
+        return totalWordCount
+    }
